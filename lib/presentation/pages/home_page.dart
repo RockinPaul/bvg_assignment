@@ -6,7 +6,6 @@ import '../../core/constants/design_system.dart';
 import '../../domain/entities/bvg_stop.dart';
 import '../cubits/search/search_cubit.dart';
 import '../cubits/search/search_state.dart';
-import '../widgets/search_field_widget.dart';
 import '../widgets/stops_suggestions_widget.dart';
 
 /// Main home page implementing the BVG departures search interface
@@ -18,44 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode();
-  bool _isSearchFocused = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchFocusNode.addListener(_onSearchFocusChanged);
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    _searchFocusNode.dispose();
-    super.dispose();
-  }
-
-  void _onSearchFocusChanged() {
-    setState(() {
-      _isSearchFocused = _searchFocusNode.hasFocus;
-    });
-  }
-
   void _onStopSelected(BvgStop stop) {
-    // Clear search field and unfocus
-    _searchController.clear();
-    _searchFocusNode.unfocus();
-
     // Clear search results
     context.read<SearchCubit>().clearSearch();
 
     // Navigate to departures page
     context.pushNamed('departures', extra: stop);
-  }
-
-  void _onSearchCleared() {
-    _searchController.clear();
-    context.read<SearchCubit>().clearSearch();
   }
 
   @override
@@ -66,13 +33,43 @@ class _HomePageState extends State<HomePage> {
           children: [
             Container(
               padding: const EdgeInsets.all(DesignSystem.spacing20),
-              child: SearchFieldWidget(
-                controller: _searchController,
-                focusNode: _searchFocusNode,
-                onChanged: (query) {
-                  context.read<SearchCubit>().searchStops(query);
+              child: GestureDetector(
+                onTap: () {
+                  context.pushNamed('search');
                 },
-                onClear: _onSearchCleared,
+                child: Container(
+                  height: DesignSystem.searchBarHeight,
+                  decoration: BoxDecoration(
+                    color: DesignSystem.backgroundPrimary,
+                    borderRadius: BorderRadius.circular(24.0),
+                    border: Border.all(
+                      color: DesignSystem.grey500,
+                      width: 1.0,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: DesignSystem.spacing16,
+                        ),
+                        child: Icon(
+                          Icons.search,
+                          color: DesignSystem.grey500,
+                          size: 24,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Search for station',
+                          style: DesignSystem.bodyLarge.copyWith(
+                            color: DesignSystem.grey500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
             Container(color: DesignSystem.grey500, height: 1.0),
@@ -82,10 +79,8 @@ class _HomePageState extends State<HomePage> {
                   if (searchState is SearchLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
-
                   if (searchState is SearchSuccess &&
                       searchState.stops.isNotEmpty) {
-                    // Show search results
                     return StopsSuggestionsWidget(
                       stops: searchState.stops,
                       onStopSelected: _onStopSelected,
