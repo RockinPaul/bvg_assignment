@@ -45,15 +45,12 @@ class _HomePageState extends State<HomePage> {
     // Clear search field and unfocus
     _searchController.clear();
     _searchFocusNode.unfocus();
-    
+
     // Clear search results
     context.read<SearchCubit>().clearSearch();
-    
+
     // Navigate to departures page
-    context.pushNamed(
-      'departures',
-      extra: stop,
-    );
+    context.pushNamed('departures', extra: stop);
   }
 
   void _onSearchCleared() {
@@ -67,37 +64,6 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            // Top app bar with search
-            Container(
-              height: DesignSystem.topAppBarHeight,
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignSystem.spacing20,
-                vertical: DesignSystem.spacing8,
-              ),
-              decoration: const BoxDecoration(
-                color: DesignSystem.backgroundPrimary,
-                border: Border(
-                  bottom: BorderSide(
-                    color: DesignSystem.grey100,
-                    width: 1,
-                  ),
-                ),
-              ),
-              child: Row(
-                children: [
-                  // Status bar time display (static for demo)
-                  Text(
-                    '9:41',
-                    style: DesignSystem.labelLarge.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const Spacer(),
-                ],
-              ),
-            ),
-            
-            // Search container
             Container(
               padding: const EdgeInsets.all(DesignSystem.spacing20),
               child: SearchFieldWidget(
@@ -109,25 +75,23 @@ class _HomePageState extends State<HomePage> {
                 onClear: _onSearchCleared,
               ),
             ),
-            
-            // Main content area
+            Container(color: DesignSystem.grey500, height: 1.0),
             Expanded(
               child: BlocBuilder<SearchCubit, SearchState>(
                 builder: (context, searchState) {
                   if (searchState is SearchLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   }
-                  
-                  if (searchState is SearchSuccess && searchState.stops.isNotEmpty) {
+
+                  if (searchState is SearchSuccess &&
+                      searchState.stops.isNotEmpty) {
                     // Show search results
                     return StopsSuggestionsWidget(
                       stops: searchState.stops,
                       onStopSelected: _onStopSelected,
                     );
                   }
-                  
+
                   if (searchState is SearchError) {
                     return Center(
                       child: Padding(
@@ -151,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   }
-                  
+
                   // Default state - show welcome message
                   return Center(
                     child: Padding(

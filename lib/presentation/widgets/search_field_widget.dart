@@ -19,31 +19,38 @@ class SearchFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: DesignSystem.searchBarHeight,
+      decoration: BoxDecoration(
+        color: DesignSystem.backgroundPrimary,
+        borderRadius: BorderRadius.circular(24.0),
+        border: Border.all(
+          color: DesignSystem.grey500,
+          width: 1.0,
+        ),
+      ),
       child: TextField(
         controller: controller,
         focusNode: focusNode,
         onChanged: onChanged,
         style: DesignSystem.bodyLarge,
         decoration: InputDecoration(
-          filled: true,
-          // fillColor: DesignSystem.inputBackground,
+          filled: false,
           hintText: 'Search for station',
           hintStyle: DesignSystem.bodyLarge.copyWith(
-            color: DesignSystem.grey600,
+            color: DesignSystem.grey500,
           ),
           prefixIcon: const Icon(
             Icons.search,
-            color: DesignSystem.grey600,
-            size: 20,
+            color: DesignSystem.grey500,
+            size: 24,
           ),
           suffixIcon: controller.text.isNotEmpty
               ? GestureDetector(
                   onTap: onClear,
                   child: const Icon(
                     Icons.clear,
-                    color: DesignSystem.grey600,
+                    color: DesignSystem.grey500,
                     size: 20,
                   ),
                 )
@@ -52,20 +59,9 @@ class SearchFieldWidget extends StatelessWidget {
             horizontal: DesignSystem.spacing16,
             vertical: DesignSystem.spacing12,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(DesignSystem.borderRadius28),
-            borderSide: const BorderSide(
-              color: DesignSystem.grey100,
-              width: 1.0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(DesignSystem.borderRadius28),
-            borderSide: const BorderSide(
-              color: DesignSystem.bluePrimary600,
-              width: 2.0,
-            ),
-          ),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
         ),
       ),
     );
