@@ -192,20 +192,16 @@ class _DepartureTimeStatusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDelayed = departure.isDelayed;
+    final isDelayedOrCancelled = departure.isDelayed || departure.cancelled;
     final statusText = departure.statusText;
-    final backgroundColor =
-        departure.cancelled
-            ? DesignSystem.grey100
-            : isDelayed
-            ? DesignSystem.grey100
-            : DesignSystem.grey50;
-    final statusColor =
-        departure.cancelled
-            ? DesignSystem.red600
-            : isDelayed
-            ? DesignSystem.red600
-            : DesignSystem.suburbanGreen;
+
+    final backgroundColor = isDelayedOrCancelled
+        ? DesignSystem.statusRedBg
+        : DesignSystem.statusGreenBg;
+
+    final statusTextColor = isDelayedOrCancelled
+        ? DesignSystem.statusRed
+        : DesignSystem.statusGreen;
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -221,14 +217,17 @@ class _DepartureTimeStatusWidget extends StatelessWidget {
         children: [
           Text(
             _formatDepartureTime(departure.effectiveTime),
-            style: DesignSystem.bodyLarge.copyWith(fontWeight: FontWeight.w500),
+            style: DesignSystem.bodyLarge.copyWith(
+              fontWeight: FontWeight.bold,
+              color: statusTextColor,
+            ),
           ),
           const SizedBox(height: DesignSystem.spacing4),
           Text(
             statusText,
-            style: DesignSystem.labelLarge.copyWith(
-              color: statusColor,
-              fontSize: 12,
+            style: DesignSystem.bodyLarge.copyWith(
+              fontWeight: FontWeight.bold,
+              color: statusTextColor,
             ),
           ),
         ],

@@ -25,6 +25,12 @@ class DesignSystem {
   static const Color red600 = Color(0xFFDD3728);
   static const Color red700 = Color(0xFFC73224);
   static const Color red800 = Color(0xFFB12C20);
+
+  // Status Colors
+  static const Color statusGreen = Color(0xFF006400); // Dark Green
+  static const Color statusGreenBg = Color(0xFFE8F5E9); // Light Green
+  static const Color statusRed = Color(0xFFC73224); // Dark Red
+  static const Color statusRedBg = Color(0xFFFCE8E6); // Light Red
   
   // Input field background
   static const Color inputBackground = Color(0xFFDADADA);
