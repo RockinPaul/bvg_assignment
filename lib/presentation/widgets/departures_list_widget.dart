@@ -73,11 +73,13 @@ class _DepartureListItem extends StatelessWidget {
         horizontal: DesignSystem.spacing20,
         vertical: DesignSystem.spacing12,
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _TransportInfoWidget(transportMode: departure.transportMode),
@@ -99,6 +101,7 @@ class _DepartureListItem extends StatelessWidget {
           const SizedBox(width: DesignSystem.spacing12),
           _DepartureTimeStatusWidget(departure: departure),
         ],
+      ),
       ),
     );
   }
@@ -207,13 +210,14 @@ class _DepartureTimeStatusWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignSystem.spacing12,
-        vertical: DesignSystem.spacing8,
+        vertical: DesignSystem.spacing12,
       ),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(DesignSystem.spacing8),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             _formatDepartureTime(departure.effectiveTime),
