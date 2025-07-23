@@ -32,12 +32,17 @@ class DeparturesPage extends StatelessWidget {
             ),
           ],
           automaticallyImplyLeading: false,
-          title: Text(stop.name, style: DesignSystem.titleLarge),
+          title: Text(
+            stop.name,
+            style: DesignSystem.bodyLarge.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           centerTitle: true,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Container(
-              color: DesignSystem.grey600,
+              color: DesignSystem.grey500,
               height: 1.0,
             ),
           ),
