@@ -56,7 +56,6 @@ class _StopListItem extends StatelessWidget {
       child: Container(
         height: DesignSystem.listItemHeight,
         padding: const EdgeInsets.symmetric(
-          horizontal: DesignSystem.spacing16,
           vertical: DesignSystem.spacing12,
         ),
         child: Row(
@@ -66,12 +65,12 @@ class _StopListItem extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: DesignSystem.grey100,
+                color: DesignSystem.primaryText,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Icon(
                 Icons.location_on_outlined,
-                color: DesignSystem.grey600,
+                color: DesignSystem.backgroundPrimary,
                 size: 20,
               ),
             ),
