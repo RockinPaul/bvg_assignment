@@ -68,14 +68,7 @@ class _SearchPageState extends State<SearchPage> {
             context.pop();
           },
         ),
-        title: Container(
-          height: 36,
-          margin: const EdgeInsets.only(right: DesignSystem.spacing8),
-          decoration: BoxDecoration(
-            color: DesignSystem.grey100,
-            borderRadius: BorderRadius.circular(18.0),
-          ),
-          child: TextField(
+        title: TextField(
             controller: _searchController,
             focusNode: _searchFocusNode,
             onChanged: (query) {
@@ -90,18 +83,6 @@ class _SearchPageState extends State<SearchPage> {
               hintStyle: DesignSystem.bodyLarge.copyWith(
                 color: DesignSystem.grey500,
                 fontSize: 17,
-              ),
-              prefixIcon: const Padding(
-                padding: EdgeInsets.only(left: 8, right: 4),
-                child: Icon(
-                  Icons.search,
-                  color: DesignSystem.grey500,
-                  size: 22,
-                ),
-              ),
-              prefixIconConstraints: const BoxConstraints(
-                minWidth: 34,
-                minHeight: 22,
               ),
               suffixIcon: _searchController.text.isNotEmpty
                   ? GestureDetector(
@@ -122,19 +103,13 @@ class _SearchPageState extends State<SearchPage> {
               focusedBorder: InputBorder.none,
             ),
           ),
-        ),
         actions: [
-          TextButton(
+          IconButton(
+            icon: const Icon(Icons.close, color: DesignSystem.primaryText),
             onPressed: () {
               context.read<SearchCubit>().clearSearch();
               context.pop();
             },
-            child: Text(
-              'Cancel',
-              style: DesignSystem.bodyLarge.copyWith(
-                color: DesignSystem.bluePrimary600,
-              ),
-            ),
           ),
         ],
         bottom: PreferredSize(
