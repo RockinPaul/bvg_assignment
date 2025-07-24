@@ -105,7 +105,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.close, color: DesignSystem.primaryText),
+            icon: const Icon(Icons.cancel_outlined, color: DesignSystem.primaryText),
             onPressed: () {
               context.read<SearchCubit>().clearSearch();
               context.pop();
