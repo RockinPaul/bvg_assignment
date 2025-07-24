@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../../core/constants/api_constants.dart';
+import '../../core/constants/constants.dart';
 import '../models/bvg_stop_model.dart';
 import '../models/departure_model.dart';
 
@@ -27,14 +27,14 @@ class BvgRemoteDataSource {
   /// Search for stops using the BVG API locations endpoint
   Future<List<BvgStopModel>> searchStops(String query) async {
     try {
-      final uri = Uri.parse(ApiConstants.baseUrl + ApiConstants.locationsEndpoint).replace(
+      final uri = Uri.parse(Constants.baseUrl + Constants.locationsEndpoint).replace(
         queryParameters: {
-          ApiConstants.queryParam: query,
-          ApiConstants.resultsParam: ApiConstants.defaultSearchLimit.toString(),
-          ApiConstants.fuzzyParam: 'true',
-          ApiConstants.stopsEndpoint.substring(1): 'true', // Remove leading slash
-          ApiConstants.addressesParam: 'false',
-          ApiConstants.poiParam: 'false',
+          Constants.queryParam: query,
+          Constants.resultsParam: Constants.defaultSearchLimit.toString(),
+          Constants.fuzzyParam: 'true',
+          Constants.stopsEndpoint.substring(1): 'true', // Remove leading slash
+          Constants.addressesParam: 'false',
+          Constants.poiParam: 'false',
         },
       );
 
@@ -44,7 +44,7 @@ class BvgRemoteDataSource {
           'Accept': 'application/json',
           'User-Agent': 'BVG Flutter App',
         },
-      ).timeout(ApiConstants.requestTimeout);
+      ).timeout(Constants.requestTimeout);
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
@@ -85,16 +85,16 @@ class BvgRemoteDataSource {
   /// Get departures for a specific stop
   Future<List<DepartureModel>> getDepartures(
     String stopId, {
-    int limit = ApiConstants.defaultDeparturesLimit,
-    int duration = ApiConstants.defaultDurationMinutes,
+    int limit = Constants.defaultDeparturesLimit,
+    int duration = Constants.defaultDurationMinutes,
   }) async {
     try {
       final uri = Uri.parse(
-        '${ApiConstants.baseUrl}${ApiConstants.stopsEndpoint}/$stopId${ApiConstants.departuresPath}',
+        '${Constants.baseUrl}${Constants.stopsEndpoint}/$stopId${Constants.departuresPath}',
       ).replace(
         queryParameters: {
-          ApiConstants.limitParam: limit.toString(),
-          ApiConstants.durationParam: duration.toString(),
+          Constants.limitParam: limit.toString(),
+          Constants.durationParam: duration.toString(),
         },
       );
 
@@ -104,7 +104,7 @@ class BvgRemoteDataSource {
           'Accept': 'application/json',
           'User-Agent': 'BVG Flutter App',
         },
-      ).timeout(ApiConstants.requestTimeout);
+      ).timeout(Constants.requestTimeout);
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);

@@ -1,3 +1,4 @@
+import 'package:bvg_assignment/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants/design_system.dart';
@@ -20,6 +21,10 @@ class DeparturesListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Limit to maximum 30 departures
+    final limitedDepartures =
+        departures.take(Constants.defaultDeparturesLimit).toList();
+
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: () async => onRefresh(),
@@ -28,13 +33,13 @@ class DeparturesListWidget extends StatelessWidget {
             // Departures list
             Expanded(
               child:
-                  departures.isEmpty
+                  limitedDepartures.isEmpty
                       ? _EmptyDeparturesWidget()
                       : ListView.separated(
                         padding: const EdgeInsets.symmetric(
                           vertical: DesignSystem.spacing8,
                         ),
-                        itemCount: departures.length,
+                        itemCount: limitedDepartures.length,
                         separatorBuilder:
                             (context, index) => Divider(
                               height: 1,
@@ -44,7 +49,7 @@ class DeparturesListWidget extends StatelessWidget {
                               endIndent: DesignSystem.spacing20,
                             ),
                         itemBuilder: (context, index) {
-                          final departure = departures[index];
+                          final departure = limitedDepartures[index];
                           return _DepartureListItem(
                             departure: departure,
                             stopName: selectedStop.name,
@@ -77,31 +82,31 @@ class _DepartureListItem extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _TransportInfoWidget(transportMode: departure.transportMode),
-                const SizedBox(height: DesignSystem.spacing12),
-                Text(
-                  departure.direction,
-                  style: DesignSystem.titleLarge.copyWith(fontSize: 18),
-                ),
-                const SizedBox(height: DesignSystem.spacing4),
-                Text(
-                  _buildSubtitle(),
-                  style: DesignSystem.bodyLarge.copyWith(
-                    color: DesignSystem.grey600,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _TransportInfoWidget(transportMode: departure.transportMode),
+                  const SizedBox(height: DesignSystem.spacing12),
+                  Text(
+                    departure.direction,
+                    style: DesignSystem.titleLarge.copyWith(fontSize: 18),
                   ),
-                ),
-              ],
+                  const SizedBox(height: DesignSystem.spacing4),
+                  Text(
+                    _buildSubtitle(),
+                    style: DesignSystem.bodyLarge.copyWith(
+                      color: DesignSystem.grey600,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: DesignSystem.spacing12),
-          _DepartureTimeStatusWidget(departure: departure),
-        ],
-      ),
+            const SizedBox(width: DesignSystem.spacing12),
+            _DepartureTimeStatusWidget(departure: departure),
+          ],
+        ),
       ),
     );
   }
@@ -195,13 +200,15 @@ class _DepartureTimeStatusWidget extends StatelessWidget {
     final isDelayedOrCancelled = departure.isDelayed || departure.cancelled;
     final statusText = departure.statusText;
 
-    final backgroundColor = isDelayedOrCancelled
-        ? DesignSystem.statusRedBg
-        : DesignSystem.statusGreenBg;
+    final backgroundColor =
+        isDelayedOrCancelled
+            ? DesignSystem.statusRedBg
+            : DesignSystem.statusGreenBg;
 
-    final statusTextColor = isDelayedOrCancelled
-        ? DesignSystem.statusRed
-        : DesignSystem.statusGreen;
+    final statusTextColor =
+        isDelayedOrCancelled
+            ? DesignSystem.statusRed
+            : DesignSystem.statusGreen;
 
     return Container(
       padding: const EdgeInsets.symmetric(
