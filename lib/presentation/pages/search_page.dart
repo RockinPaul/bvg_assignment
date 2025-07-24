@@ -69,11 +69,11 @@ class _SearchPageState extends State<SearchPage> {
           },
         ),
         title: Container(
-          height: 40,
+          height: 36,
           margin: const EdgeInsets.only(right: DesignSystem.spacing8),
           decoration: BoxDecoration(
-            color: DesignSystem.backgroundSecondary,
-            borderRadius: BorderRadius.circular(20.0),
+            color: DesignSystem.grey100,
+            borderRadius: BorderRadius.circular(18.0),
           ),
           child: TextField(
             controller: _searchController,
@@ -81,17 +81,27 @@ class _SearchPageState extends State<SearchPage> {
             onChanged: (query) {
               context.read<SearchCubit>().searchStops(query);
             },
-            style: DesignSystem.bodyLarge,
+            style: DesignSystem.bodyLarge.copyWith(
+              fontSize: 17,
+            ),
             decoration: InputDecoration(
               filled: false,
               hintText: 'Search for station',
               hintStyle: DesignSystem.bodyLarge.copyWith(
                 color: DesignSystem.grey500,
+                fontSize: 17,
               ),
-              prefixIcon: const Icon(
-                Icons.search,
-                color: DesignSystem.grey500,
-                size: 20,
+              prefixIcon: const Padding(
+                padding: EdgeInsets.only(left: 8, right: 4),
+                child: Icon(
+                  Icons.search,
+                  color: DesignSystem.grey500,
+                  size: 22,
+                ),
+              ),
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 34,
+                minHeight: 22,
               ),
               suffixIcon: _searchController.text.isNotEmpty
                   ? GestureDetector(
@@ -104,7 +114,7 @@ class _SearchPageState extends State<SearchPage> {
                     )
                   : null,
               contentPadding: const EdgeInsets.symmetric(
-                horizontal: DesignSystem.spacing12,
+                horizontal: DesignSystem.spacing8,
                 vertical: DesignSystem.spacing8,
               ),
               border: InputBorder.none,
