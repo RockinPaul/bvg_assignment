@@ -62,8 +62,8 @@ class _StopListItem extends StatelessWidget {
           children: [
             // Leading icon
             Container(
-              width: 40,
-              height: 40,
+              width: 25,
+              height: 25,
               decoration: BoxDecoration(
                 color: DesignSystem.primaryText,
                 borderRadius: BorderRadius.circular(20),
@@ -101,7 +101,7 @@ class _StopListItem extends StatelessWidget {
             // Trailing icon
             Icon(
               Icons.arrow_forward_ios,
-              color: DesignSystem.grey500,
+              color: DesignSystem.primaryText,
               size: 16,
             ),
           ],
